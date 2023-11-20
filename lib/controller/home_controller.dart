@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -7,7 +8,7 @@ class HomeController extends GetxController {
   int selectdColorIndex=0;
   int selectdSizeIndex=0;
   bool is3dObjectTapped=false;
-  double imageSize=400;
+  CarouselController carouselController=CarouselController();
   List<Product> productList = [
     Product(
       id: 1,
@@ -24,9 +25,20 @@ class HomeController extends GetxController {
         name: 'Nike Air Max 97',
         price: 220.00,
         isliked: false,
-        imageList:['assets/egg_0.glb','assets/egg_1.glb','assets/egg_2.glb'],
+        isSelected: false,
+        imageList:['assets/egg_2.glb','assets/egg_1.glb','assets/egg_0.glb'],
         colorList:[const Color(0xff20262C),const Color(0xffffffff),const Color(0xff747F8F)],
         category: "Trending Now"),
+    Product(
+      id: 1,
+      name: 'Nike Air Max 200',
+      price: 240.00,
+      isSelected: false,
+      isliked: false,
+      category: "Trending Now",
+      imageList:['assets/egg_0.glb','assets/egg_1.glb','assets/egg_2.glb'],
+      colorList:[const Color(0xff20262C),const Color(0xffffffff),const Color(0xff747F8F)],
+    ),
   ];
   List<Product> cartList=[];
   List<Widget> colorList=[];
@@ -38,30 +50,29 @@ int selectdPageIndex=0;
   }
   pageViewUpdate({int selectedColor=0}){
     imageWidget=[];
-    for (var element in productList) {
-      List<Widget> tempImage=element.imageList!.map((e) {
-        return Container(
-            height: 200,
-            decoration: const BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(20))
-            ),
-            child:ModelViewer(
-              key: ValueKey(e),
-              id: "oeuvres3D",
-              autoRotateDelay: 500,
-              backgroundColor: Colors.transparent,
-              src:e,
-              autoRotate: true,
-              disableTap: true,
-              disableZoom: true,
-            )
-        );
-      }).toList();
-      imageWidget.addAll(tempImage);
+    var selectedProduct =productList.where((element) => element.isSelected??false).toList();
+    for (var element in selectedProduct) {
+      element.imageList?.map((e) => imageWidget.add(Container(
+          height: 200,
+          decoration: const BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(20))
+          ),
+          child:ModelViewer(
+            key: ValueKey('teygh$e'),
+            id: "oeuvr32es3D$e",
+            autoRotateDelay: 500,
+            backgroundColor: Colors.transparent,
+            src:e,
+            autoRotate: true,
+            disableTap: true,
+            disableZoom: true,
+          )
+      ))).toList();
     }
     update();
   }
+
   colorWidget({bool isSelected = false}) {
     colorList=[];
     var selectedProduct=productList.firstWhere((element) => element.isSelected??false);

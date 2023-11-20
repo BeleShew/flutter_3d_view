@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_3d_object/screen/home_page.dart';
+import 'package:flutter_3d_object/screen/landing_page.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LandingPage(),
     );
   }
 }
